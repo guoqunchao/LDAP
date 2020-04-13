@@ -45,30 +45,56 @@ Base: dc=hlzxcq,dc=com
 Username:cn=admin,dc=hlzxcq,dc=com
 ```
 ```shell
-root@b09330660342:/# cat ldapuser.ldif 
-# replace to your own domain name for "dc=***,dc=***" section
-dn: uid=inkwhite,ou=staff,dc=zichan360-external,dc=com
+root@6ea76c7fcf24:/# cat User.ldif 
+#replace to your own domain name for "dc=***,dc=***" section
+#1
+dn: uid=liyanling,ou=ChongQing,dc=hlzxcq,dc=com
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: shadowAccount
-cn: 墨白
-sn: 墨
+cn: 燕玲
+sn: 李
 userPassword:123456
 loginShell: /bin/bash
 uidNumber: 1000
 gidNumber: 1000
-homeDirectory: /home/inkwhite
-mail: mobai@zichan360.com
-telephoneNumber: 12345678911
-title: 首席技术官
+homeDirectory: /home/liyanling
+#mail: mobai@zichan360.com
+telephoneNumber: 11111111111
+title: 资产处置经理
 
-
-cn: 运维组
-description: 运维组
-dn: cn=运维组,ou=Group,dc=zichan360-external,dc=com
-objectClass: posixGroup
+#2
+dn: uid=tanlu,ou=ChongQing,dc=hlzxcq,dc=com
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: 璐
+sn: 谭
+userPassword:123456
+loginShell: /bin/bash
+uidNumber: 1000
 gidNumber: 1000
+homeDirectory: /home/tanlu
+#mail: mobai@zichan360.com
+telephoneNumber: 11111111111
+title: 资产处置主管
 
 
-ldapadd -x -D cn=admin,dc=zichan360-external,dc=com -W  -f ldapuser.ldif
+#3
+dn: uid=liyan,ou=ChongQing,dc=hlzxcq,dc=com
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: 艳
+sn: 李
+userPassword:123456
+loginShell: /bin/bash
+uidNumber: 1000
+gidNumber: 1000
+homeDirectory: /home/liyan
+#mail: mobai@zichan360.com
+telephoneNumber: 11111111111
+title: 资产处置组长
+
 ```
+
