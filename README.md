@@ -44,7 +44,10 @@ docker run -p 389:389 --name openldap --restart=always --env LDAP_ORGANISATION="
 Base: dc=hlzxcq,dc=com
 Username:cn=admin,dc=hlzxcq,dc=com
 ```
+
+
 ```shell
+#用户文件
 root@6ea76c7fcf24:/# cat User.ldif 
 #replace to your own domain name for "dc=***,dc=***" section
 #1
@@ -96,5 +99,39 @@ homeDirectory: /home/liyan
 telephoneNumber: 11111111111
 title: 资产处置组长
 
+```
+```shell
+#用户组文件
+root@6ea76c7fcf24:/# cat Group.ldif 
+dn: cn=资产处置部,ou=group,dc=hlzxcq,dc=com
+objectClass: posixGroup
+objectClass: top
+cn: 资产处置部
+memberUid: chenyang
+memberUid: fanglin
+gidNumber: 500
+
+
+dn: cn=资产处置部2,ou=group,dc=hlzxcq,dc=com
+objectClass: posixGroup
+objectClass: top
+cn: 资产处置部2
+memberUid: tanlu
+memberUid: sunsi
+gidNumber: 500
+```
+
+```shell
+#查询所有uid
+ldapsearch -x -b "ou=ChongQing,dc=hlzxcq,dc=com" -D "cn=admin,dc=hlzxcq,dc=com" -w zichan360
+
+#添加用户
+ldapadd -x -D "cn=admin,dc=hlzxcq,dc=com" -w zichan360 -f User.ldif
+
+删除单用户
+ldapdelete -x -D "cn=admin,dc=hlzxcq,dc=com" -w zichan360 uid=sunsi,ou=ChongQing,dc=hlzxcq,dc=com
+
+删除所有用户
+ldapsearch -x -b "ou=ChongQing,dc=hlzxcq,dc=com" -D "cn=admin,dc=hlzxcq,dc=com" -w zichan360 |egrep "dn: uid"|awk '{print "ldapdelete -x -D \"cn=admin,dc=hlzxcq,dc=com\" -w zichan360 "$2}'|bash
 ```
 
