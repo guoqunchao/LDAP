@@ -128,10 +128,10 @@ ldapsearch -x -b "ou=ChongQing,dc=hlzxcq,dc=com" -D "cn=admin,dc=hlzxcq,dc=com" 
 #添加用户
 ldapadd -x -D "cn=admin,dc=hlzxcq,dc=com" -w zichan360 -f User.ldif
 
-删除单用户
+#删除单用户
 ldapdelete -x -D "cn=admin,dc=hlzxcq,dc=com" -w zichan360 uid=sunsi,ou=ChongQing,dc=hlzxcq,dc=com
 
-删除所有用户
+#删除所有用户
 ldapsearch -x -b "ou=ChongQing,dc=hlzxcq,dc=com" -D "cn=admin,dc=hlzxcq,dc=com" -w zichan360 |egrep "dn: uid"|awk '{print "ldapdelete -x -D \"cn=admin,dc=hlzxcq,dc=com\" -w zichan360 "$2}'|bash
 ```
 
