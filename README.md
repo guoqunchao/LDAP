@@ -1,4 +1,4 @@
-#OpenLDAP主从搭建与配置
+# OpenLDAP主从搭建与配置
 
 ### 1) 安装openldap软件
 [root@base-ldap-master ~]# yum -y install openldap compat-openldap openldap-clients openldap-servers openldap-servers-sql openldap-devel migrationtools
