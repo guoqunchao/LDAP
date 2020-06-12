@@ -11,7 +11,16 @@
 [root@base-ldap-master certs]# openssl req -x509 -new -nodes -subj "/C=CN/ST=ShangHai/L=ShangHai/O=ldap/OU=lework/CN=ldap-ca"  -key rootCA.key -sha256 -days 1024 -out rootCA.pem
 
 '''生成ldap证书请求'''
+[root@base-ldap-master certs]# openssl genrsa -out ldap.key 2048
+[root@base-ldap-master certs]# openssl req -new -subj "/C=CN/ST=BeiJing/L=BeiJing/O=ldap/OU=zichan360/CN=ldap-master.zichan360.com" -key ldap.key -out ldap.csr
+
 '''签发ldap证书'''
+[root@base-ldap-master certs]# openssl x509 -req -in ldap.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out ldap.crt -days 3650 -sha256
+Signature ok
+subject=/C=CN/ST=BeiJing/L=BeiJing/O=ldap/OU=zichan360/CN=ldap-master.zichan360.com
+Getting CA Private Key
+[root@base-ldap-master certs]# chown -R ldap:ldap /etc/openldap/certs/
+
 '''创建certs.ldif文件以配置LDAP使用自签名证书进行安全通信'''
 '''测试配置'''
 ```
