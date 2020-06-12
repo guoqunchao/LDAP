@@ -22,6 +22,23 @@ Getting CA Private Key
 [root@base-ldap-master certs]# chown -R ldap:ldap /etc/openldap/certs/
 
 '''创建certs.ldif文件以配置LDAP使用自签名证书进行安全通信'''
+[root@base-ldap-master ~]# cat >certs.ldif<<EOF
+dn: cn=config
+changetype: modify
+replace: olcTLSCACertificateFile
+olcTLSCACertificateFile: /etc/openldap/certs/rootCA.pem
+
+dn: cn=config
+changetype: modify
+replace: olcTLSCertificateFile
+olcTLSCertificateFile: /etc/openldap/certs/ldap.crt
+
+dn: cn=config
+changetype: modify
+replace: olcTLSCertificateKeyFile
+olcTLSCertificateKeyFile: /etc/openldap/certs/ldap.key
+EOF
+
 '''测试配置'''
 ```
 
