@@ -1,13 +1,6 @@
 # OpenLDAP主从搭建与配置
 
 #### 1)安装openldap软件
-[root@base-ldap-master ~]# yum -y install openldap compat-openldap openldap-clients openldap-servers openldap-servers-sql openldap-devel migrationtools
-[root@base-ldap-master ~]# cp /usr/share/openldap-servers/DB_CONFIG.example /var/lib/ldap/DB_CONFIG
-[root@base-ldap-master ~]# chown ldap:ldap -R /var/lib/ldap
-[root@base-ldap-master ~]# chmod 700 -R /var/lib/ldap
-[root@base-ldap-master ~]# systemctl start slapd && systemctl status slapd
-[root@base-ldap-master ~]# systemctl enable slapd
-
 ```shell
 [root@base-ldap-master ~]# yum -y install openldap compat-openldap openldap-clients openldap-servers openldap-servers-sql openldap-devel migrationtools
 [root@base-ldap-master ~]# cp /usr/share/openldap-servers/DB_CONFIG.example /var/lib/ldap/DB_CONFIG
@@ -17,7 +10,7 @@
 [root@base-ldap-master ~]# systemctl enable slapd
 ```
 
-2) 配置openldap管理员密码
+#### 2) 配置openldap管理员密码
 [root@base-ldap-master ~]# HRSpHDcUi0NL4ZSo
 [root@Devops-gate ~]# slappasswd 
 New password: HRSpHDcUi0NL4ZSo
@@ -31,12 +24,12 @@ olcRootPW: {SSHA}8PUBzRFMY4BvoL1j1A5xps0dMVnVBxYi
 EOF
 [root@base-ldap-master ~]# ldapadd -Y EXTERNAL -H ldapi:/// -f /root/chrootpw.ldif
 
-3) 导入相关openldap属性
+#### 3) 导入相关openldap属性
 [root@base-ldap-master ~]# ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif
 [root@base-ldap-master ~]# ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/nis.ldif
 [root@base-ldap-master ~]# ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif
 
-4) 修改openldap的基本配置
+#### 4) 修改openldap的基本配置
 [root@base-ldap-master ~]# vim /root/chdomain.ldif 
 #replace to your own domain name for “dc=***,dc=***” section
 #specify the password generated above for “olcRootPW” section
@@ -69,7 +62,7 @@ olcAccess: {2}to * by dn="cn=root,dc=zichan360,dc=com" write by * read
 [root@base-ldap-master ~]# ldapmodify -Y EXTERNAL -H ldapi:/// -f /root/chdomain.ldif
 
 
-5) 导入基础数据库
+#### 5) 导入基础数据库
 [root@base-ldap-master ~]# vim basedomain.ldif 
 #replace to your own domain name for “dc=***,dc=***” section
 dn: dc=zichan360,dc=com
@@ -100,7 +93,7 @@ adding new entry "ou=People,dc=zichan360,dc=com"
 adding new entry "ou=Group,dc=zichan360,dc=com"
 
 
-6) 导入用户
+#### 6) 导入用户
 [root@base-ldap-master ~]# cat users.ldif 
 dn: uid=ldapuser1,ou=People,dc=zichan360,dc=com
 uid: ldapuser1
@@ -160,7 +153,7 @@ adding new entry "uid=ldapuser1,ou=People,dc=zichan360,dc=com"
 adding new entry "uid=ldapuser2,ou=People,dc=zichan360,dc=com"
 
 
-7) 导入用户组
+#### 7) 导入用户组
 [root@base-ldap-master ~]# cat /root/groups.ldif 
 dn: cn=ldapgroup1,ou=Group,dc=zichan360,dc=com
 objectClass: posixGroup
@@ -180,7 +173,7 @@ adding new entry "cn=ldapgroup1,ou=Group,dc=zichan360,dc=com"
 adding new entry "cn=ldapgroup2,ou=Group,dc=zichan360,dc=com"
 
 
-8) 把用户加入到用户组
+#### 8) 把用户加入到用户组
 [root@base-ldap-master ~]# vim /root/add_user_to_groups.ldif 
 dn: cn=ldapgroup1,ou=Group,dc=zichan360,dc=com
 changetype: modify
@@ -197,7 +190,7 @@ modifying entry "cn=ldapgroup1,ou=Group,dc=zichan360,dc=com"
 modifying entry "cn=ldapgroup2,ou=Group,dc=zichan360,dc=com"
 
 
-9) 开启openldap日志功能
+#### 9) 开启openldap日志功能
 [root@base-ldap-master ~]# vim /root/loglevel.ldif 
 dn: cn=config
 changetype: modify
@@ -221,7 +214,7 @@ Jun 11 21:04:58 iZ8vb292x9xrlgf6slqdm2Z slapd[12958]: @(#) $OpenLDAP: slapd 2.4.
 Jun 11 21:04:58 iZ8vb292x9xrlgf6slqdm2Z slapd[12960]: slapd starting
 
 
-10) slave上安装openldap
+#### 10) slave上安装openldap
 
 '''
 1.而要在slave机器上配置openldap的主从，我们也要安装openldap并进行相关配置。
@@ -229,7 +222,7 @@ Jun 11 21:04:58 iZ8vb292x9xrlgf6slqdm2Z slapd[12960]: slapd starting
 3.其中后续的章节，比如：导入基础数据库、导入用户、导入用户组和用户加入到用户组都不需要。
 '''
 
-11) master的上主从配置
+#### 11) master的上主从配置
 '''在master机器，我们需要进行导入相关的属性'''
 [root@base-ldap-master ~]# cat >/root/syncprov_mod.ldif<<EOF
 dn: cn=module,cn=config
@@ -263,7 +256,7 @@ adding new entry "olcOverlay=syncprov,olcDatabase={2}hdb,cn=config"
 #以上就是master机器上的配置
 
 
-12) slave的上主从配置
+#### 12) slave的上主从配置
 [root@base-ldap-slave ~]# cat >/root/rp.ldif<<EOF 
 dn: olcDatabase={2}hdb,cn=config
 changetype: modify
@@ -289,7 +282,7 @@ ldapmodify: invalid format (line 5) entry: "olcDatabase={2}hdb,cn=config"
 #除此之外，为了优化openldap的查询速度，我们添加了相关字段属性的索引。
 
 
-13) 验证主从正确性
+#### 13) 验证主从正确性
 '''
 slave机器上配置完毕后，无需重启master机器和slave机器的slapd服务。
 在slave机器上查看openldap日志，如下：
