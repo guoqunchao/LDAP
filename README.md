@@ -1,5 +1,4 @@
 # OpenLDAP主从搭建与配置
-# 使用SSL配置OpenLDAP
 
 #### 1)安装openldap软件
 ```shell
