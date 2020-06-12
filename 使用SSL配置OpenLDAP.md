@@ -52,3 +52,5 @@ config file testing succeeded
 SLAPD_URLS="ldapi:/// ldap:/// ldaps:///"
 [root@base-ldap-master ~]# systemctl restart slapd
 ```
+
+https://lework.github.io/2019/07/21/ldap-ssl/
