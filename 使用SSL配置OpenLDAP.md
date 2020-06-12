@@ -38,8 +38,17 @@ changetype: modify
 replace: olcTLSCertificateKeyFile
 olcTLSCertificateKeyFile: /etc/openldap/certs/ldap.key
 EOF
+[root@base-ldap-master ~]# ldapmodify -Y EXTERNAL  -H ldapi:/// -f certs.ldif
+
 
 '''测试配置'''
+[root@base-ldap-master ~]# slaptest -u
+config file testing succeeded
 ```
 
 #### 2) 配置OpenLDAP开启SSL
+```shell
+[root@base-ldap-master ~]# vim /etc/sysconfig/slapd
+SLAPD_URLS="ldapi:/// ldap:/// ldaps:///"
+[root@base-ldap-master ~]# systemctl restart slapd
+```
