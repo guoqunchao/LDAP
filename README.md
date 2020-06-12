@@ -8,6 +8,15 @@
 [root@base-ldap-master ~]# systemctl start slapd && systemctl status slapd
 [root@base-ldap-master ~]# systemctl enable slapd
 
+```shell
+[root@base-ldap-master ~]# yum -y install openldap compat-openldap openldap-clients openldap-servers openldap-servers-sql openldap-devel migrationtools
+[root@base-ldap-master ~]# cp /usr/share/openldap-servers/DB_CONFIG.example /var/lib/ldap/DB_CONFIG
+[root@base-ldap-master ~]# chown ldap:ldap -R /var/lib/ldap
+[root@base-ldap-master ~]# chmod 700 -R /var/lib/ldap
+[root@base-ldap-master ~]# systemctl start slapd && systemctl status slapd
+[root@base-ldap-master ~]# systemctl enable slapd
+```
+
 2) 配置openldap管理员密码
 [root@base-ldap-master ~]# HRSpHDcUi0NL4ZSo
 [root@Devops-gate ~]# slappasswd 
