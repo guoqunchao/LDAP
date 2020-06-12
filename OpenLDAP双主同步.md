@@ -28,8 +28,8 @@ adding new entry "cn=module,cn=config"
 dn: cn=config
 changetype: modify
 replace: olcServerID
-olcServerID: 1 ldap://openldap-master-1.colinlee.fish
-olcServerID: 2 ldap://openldap-master-2.colinlee.fish
+olcServerID: 1 ldap://ldap1.zichan360-aly.com
+olcServerID: 2 ldap://ldap2.zichan360-aly.com
 
 ### Enable replication ###
 
@@ -44,26 +44,24 @@ olcOverlay: syncprov
 dn: olcDatabase={2}hdb,cn=config
 changetype: modify
 add: olcSyncRepl
-olcSyncRepl:
-  rid=001
-  provider=ldap://openldap-master-1.colinlee.fish
-  binddn="cn=admin,dc=colinlee,dc=fish"
-  bindmethod=simple
-  credentials=MyAdMiNP@ssW0rd
-  searchbase="dc=colinlee,dc=fish"
-  type=refreshAndPersist
-  retry="5 5 300 5"
-  timeout=1
-olcSyncRepl:
-  rid=002
-  provider=ldap://openldap-master-2.colinlee.fish
-  binddn="cn=admin,dc=colinlee,dc=fish"
-  bindmethod=simple
-  credentials=MyAdMiNP@ssW0rd
-  searchbase="dc=colinlee,dc=fish"
-  type=refreshAndPersist
-  retry="5 5 300 5"
-  timeout=1
+olcSyncRepl: rid=001
+    provider=ldap://ldap1.zichan360-aly.com
+    binddn="cn=root,dc=zichan360,dc=com"
+    bindmethod=simple
+    credentials=HRSpHDcUi0NL4ZSo
+    searchbase="dc=zichan360,dc=com"
+    type=refreshAndPersist
+    retry="5 5 300 5"
+    timeout=1
+olcSyncRepl: rid=002
+    provider=ldap://ldap2.zichan360-aly.com
+    binddn="cn=root,dc=zichan360,dc=com"
+    bindmethod=simple
+    credentials=HRSpHDcUi0NL4ZSo
+    searchbase="dc=zichan360,dc=com"
+    type=refreshAndPersist
+    retry="5 5 300 5"
+    timeout=1
 -
 add: olcMirrorMode
 olcMirrorMode: TRUE
