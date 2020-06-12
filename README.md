@@ -1,4 +1,4 @@
-# OpenLDAP主从搭建与配置
+# OpenLDAP主从搭建与配置&SSL配置
 
 #### 1)安装openldap软件
 ```shell
